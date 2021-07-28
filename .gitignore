@@ -1,0 +1,24 @@
+# -- python -- #
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# -- javascript -- #
+
+# Ignore build file 
+app/templates/dist/*
+!app/templates/dist/.gitkeep
+
+# Ignore node_modules and logfile
+/node_modules
+/yarn-error.log
+
+# -- other -- #
+
+# Ignore Other files
+.DS_Store
+.vscode
