@@ -7,13 +7,15 @@ const RadioControl = (props) => {
   const name = props.name;
   const control = props.control;
   const value = props.value;
+  const hoge = props.hoge;
+
+  console.log("--------------------hogeeeeee---------------------");
 
   /*
   * RHF(React Hook Form)のControllerコンポーネント(wapper)
   * 使用してMaterial-UIのTextFieldを使用している
   * かなりカオス
   */
-  console.log(name);
   return (
     <Controller
       name={name}
@@ -28,20 +30,20 @@ const RadioControl = (props) => {
               row 
               aria-label="position" 
               name="position" 
-              defaultValue="administrator" 
+              defaultValue="member" 
               value={value} 
               onChange={onChange}>
-            <FormControlLabel
-                value="administrator"
+              <FormControlLabel
+                value={hoge["authorityVal"][0]}
                 control={<Radio color="primary" />}
-                label="管理者"
+                label={hoge["authorityName"][0]}
                 labelPlacement="start"
                 inputRef={ref}
               />
               <FormControlLabel
-                value="member"
+                value={hoge["authorityVal"][1]}
                 control={<Radio color="primary" />}
-                label="メンバー"
+                label={hoge["authorityName"][1]}
                 labelPlacement="start"
                 inputRef={ref}
               />
@@ -59,6 +61,7 @@ RadioControl.propTypes = {
   control: any,
   label: string,
   value: any,
+  hoge: any,
   readOnly: bool,
   type: string,
   helperText: string,

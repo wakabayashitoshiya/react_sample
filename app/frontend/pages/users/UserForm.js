@@ -20,6 +20,11 @@ const initialState = {
   errors: {}
 }
 
+const authorityOption = {
+  authorityName:["メンバー" , "管理者"],
+  authorityVal:["member","administrator"],
+}
+
 // user reducer
 const reducer = (state, action) => {
 
@@ -274,6 +279,7 @@ const UserForm = (props) => {
             control={control}
             name="authority"
             label="権限"
+            hoge={authorityOption}
             value={state.authority}
             readOnly={readOnly}         
           />
