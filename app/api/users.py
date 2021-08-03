@@ -91,14 +91,10 @@ def do_create_confirm():
     # modeにより分岐
     if params["mode"] == "new":
         user = User()
-        print(user)
-        print("--------------------------")
         checkUser = db.session.query(User).filter_by(login_id=params["user"]["login_id"]).first()
-
         # 値を設定
         user.set_update_attribute(params)
-
-        if checkUser:
+        if not user.valid_user_check(params):
             user.valid()
             user.errors['login_id'] = "使用できません。"
             return jsonify(user.errors), 400

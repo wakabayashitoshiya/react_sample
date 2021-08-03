@@ -56,6 +56,16 @@ class User(UserMixin, db.Model):
 
         return validate
     
+    # 同一IDのチェック
+    def valid_user_check(self,params):
+        validate = True
+        checkUser = db.session.query(User).filter_by(login_id=params["user"]["login_id"]).first()
+        if checkUser:
+            self.errors['login_id'] = "使用できません。"
+            validate = False
+
+        return validate
+    
     @classmethod
     def get_user_list(self, params):
         # ダサいがこうするしかなく。。。

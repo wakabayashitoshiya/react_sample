@@ -133,6 +133,7 @@ const UserRegisterButtonControl = (props) => {
     );
   } else if(pageMode === "new_confirm"){
     //登録確認画面
+    //なぜか処理がバブリングしてしまうので一旦苦肉の策の<br/>を入れる
     return (
       <div>
         <br/>
