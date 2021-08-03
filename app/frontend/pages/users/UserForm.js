@@ -23,6 +23,8 @@ const initialState = {
 // user reducer
 const reducer = (state, action) => {
 
+  console.log("------------------------");
+  console.log(action.type);
   switch(action.type) {
     case "GET_USER":
       return {...state,
@@ -91,13 +93,19 @@ const UserForm = (props) => {
 
   // user 入力チェック
   const doConfirm = async (data) => {
-    const url = `/api/users/${id}/confirm`;
-    const userJSON = `{"user": ${JSON.stringify(data)}, "mode": "edit"}`
+    const url = pageMode === "new" ? `/api/users/new/confirm` : `/api/users/${id}/confirm`;
+    const userJSON = pageMode === "new" ?  `{"user": ${JSON.stringify(data)}, "mode": "new"}` : `{"user": ${JSON.stringify(data)}, "mode": "edit"}`
 
     await axios.post(url, JSON.parse(userJSON))
     .then(
       () => {
-        setPageMode("confirm");
+        if(pageMode === "new"){
+          setPageMode("new_confirm");
+          dispatch ({type: 'CONFIRM', payload: {}})
+        }else{
+          setPageMode("confirm");
+          dispatch ({type: 'CONFIRM', payload: {}})
+        }
       }
     ).catch(
       (error) => {
@@ -120,30 +128,29 @@ const UserForm = (props) => {
   }
 
   // user登録 入力チェック
-  const doCreateConfirm = async (data) => {
-    const url = `/api/users/new/confirm`;
-    const userJSON = `{"user": ${JSON.stringify(data)}, "mode": "new"}`
-
-    await axios.post(url, JSON.parse(userJSON))
-    .then(
-      () => {
-        console.log("hogehoge");
-        setPageMode("new_confirm");
-      }
-    ).catch(
-      (error) => {
-        if (error.response.status === 400) {
-          const errors = error.response.data;
-
-          console.log(errors);
-          dispatch ({type: 'CONFIRM', payload: errors})
-        } else {
-          // その他はサーバサイドエラーとしてしまう。
-          history.push('/');
-        }
-      }
-    );
-  }
+//  const doCreateConfirm = async (data) => {
+//    const url = `/api/users/new/confirm`;
+//    const userJSON = `{"user": ${JSON.stringify(data)}, "mode": "new"}`
+//
+//    await axios.post(url, JSON.parse(userJSON))
+//    .then(
+//      () => {
+//        setPageMode("new_confirm");
+//      }
+//    ).catch(
+//      (error) => {
+//        if (error.response.status === 400) {
+//          const errors = error.response.data;
+//
+//          console.log(errors);
+//          dispatch ({type: 'CONFIRM', payload: errors})
+//        } else {
+//          // その他はサーバサイドエラーとしてしまう。
+//          history.push('/');
+//        }
+//      }
+//    );
+//  }
 
   // user 登録更新
   const doPost = async (data) => {
@@ -215,7 +222,7 @@ const UserForm = (props) => {
         <LogoutButton />
         <br/>
         <form onSubmit={handleSubmit(
-          pageMode === "new_confirm" ? doCreatePost : doCreateConfirm
+          pageMode === "new_confirm" ? doCreatePost : doConfirm
         )}>
           <br/>
           <TextControl

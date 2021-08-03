@@ -5,6 +5,7 @@ from sqlalchemy import Column, BigInteger, String, Enum
 from marshmallow import fields
 from flask_login import UserMixin
 import enum
+import re
 
 class AuthType(str, enum.Enum):
     administrator = "administrator"
@@ -47,6 +48,11 @@ class User(UserMixin, db.Model):
         if not self.user_name:
             self.errors['user_name'] = 'ユーザ名は必須入力です。'
             validate = False
+        if self.email:
+            email = re.compile('^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$')
+            if not email.match(self.email):
+                self.errors['email'] = 'メールアドレスが不正です。'
+                validate = False
 
         return validate
     

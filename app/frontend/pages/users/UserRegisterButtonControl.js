@@ -11,6 +11,11 @@ const UserRegisterButtonControl = (props) => {
   const dispatch = props.dispatch;
   const setDummy = props.setDummy;
 
+  const backEvent = () => {
+    useState("new");
+    history.push(`/users/new`);
+  }
+
   // ボタンコンポーネント
   const showButton = (
     <Button 
@@ -47,7 +52,10 @@ const UserRegisterButtonControl = (props) => {
       type="submit"
       variant="contained" 
       color="secondary"
-    >
+      onClick={() => {
+        console.log("aaaaaaaaaaaaaaaaaa")
+      }}
+>
       確認する
     </Button>
   );
@@ -69,10 +77,7 @@ const UserRegisterButtonControl = (props) => {
       type="button"
       variant="contained" 
       color="primary"
-      onClick={() => { 
-        useState("new");
-        history.push(`/users/new`);
-      }}
+      onClick={() => backEvent()}
     >
       やっぱやめる
     </Button>
@@ -120,14 +125,17 @@ const UserRegisterButtonControl = (props) => {
       </div>
     );
   } else if(pageMode === "new"){
+    //新規入力画面
     return (
       <div>
         {createButton}
       </div>
     );
   } else if(pageMode === "new_confirm"){
+    //登録確認画面
     return (
       <div>
+        <br/>
         {bacNewkButton}
         {createButton}
       </div>

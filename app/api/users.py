@@ -64,7 +64,7 @@ def do_confirm(id):
         ユーザ情報取得
     """
     params = request.get_json()
-    print(params);
+    print(params)
     
     # modeにより分岐
     if params["mode"] == "edit":
@@ -86,16 +86,23 @@ def do_create_confirm():
         ユーザ情報取得
     """
     params = request.get_json()
-    print(params);
+    print(params)
     
     # modeにより分岐
     if params["mode"] == "new":
-        user = User();
-        print(user);
-        print("--------------------------");
+        user = User()
+        print(user)
+        print("--------------------------")
+        checkUser = db.session.query(User).filter_by(login_id=params["user"]["login_id"]).first()
 
         # 値を設定
         user.set_update_attribute(params)
+
+        if checkUser:
+            user.valid()
+            user.errors['login_id'] = "使用できません。"
+            return jsonify(user.errors), 400
+
         if not user.valid():
             # だめなら400で終了
             return jsonify(user.errors), 400
@@ -109,12 +116,12 @@ def do_create_user():
         ユーザ情報取得
     """
     params = request.get_json()
-    print(params);
+    print(params)
     
     # modeにより分岐
     if params["mode"] == "create":
-        user = User();
-        print(user);
+        user = User()
+        print(user)
         print("--------------------------");
 
         # 値を設定
