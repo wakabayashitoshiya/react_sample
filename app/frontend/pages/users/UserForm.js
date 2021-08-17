@@ -1,13 +1,16 @@
 import { any } from "prop-types";
 import React, { useEffect, useReducer, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import { useForm } from "react-hook-form";
-import TextControl from "../../components/form/TextControl";
-import RadioControl from "../../components/form/RadioControl";
-import UserRegisterButtonControl from "./UserRegisterButtonControl";
-import LogoutButton from "../../components/LogoutButton";
+//import { useForm } from "react-hook-form";
+//import TextControl from "../../components/form/TextControl";
+//import RadioControl from "../../components/form/RadioControl";
+//import UserRegisterButtonControl from "./UserRegisterButtonControl";
+//import LogoutButton from "../../components/LogoutButton";
 import axios from "axios";
-import { getErrorCondition, getErroMessage} from "../../common/error"
+//import { getErrorCondition, getErroMessage} from "../../common/error"
+//import UpdateComponent from "./components/UpdateComponent";
+import CreateComponents from "./components/CreateComponents";
+import UpdateComponent from "./components/UpdateComponent";
 
 // user initialState
 const initialState = {
@@ -28,7 +31,6 @@ const authorityOption = {
 // user reducer
 const reducer = (state, action) => {
 
-  console.log("------------------------");
   console.log(action.type);
   switch(action.type) {
     case "GET_USER":
@@ -64,9 +66,6 @@ const UserForm = (props) => {
   const history = useHistory();
   const [pageMode, setPageMode] = useState(props.pageMode);
   const readOnly = (pageMode === "edit" || pageMode === "new") ? false : true;
-  const {control, handleSubmit, reset} = useForm({
-    shouldUnregister: false
-  });
   const [dummy, setDummy] = useState(false); // Material-UIのTextFieldリフレッシュ用useState
 
   // userデータ取得
@@ -218,151 +217,38 @@ const UserForm = (props) => {
   }
 
   console.log(pageMode);
-
-  if(pageMode === "new" || pageMode === "new_confirm"){
-    return (
-      <main>
-        <h1>ユーザ</h1>
-        <br/>
-        <LogoutButton />
-        <br/>
-        <form onSubmit={handleSubmit(
-          pageMode === "new_confirm" ? doCreatePost : doConfirm
-        )}>
-          <br/>
-          <TextControl
-            control={control}
-            name="login_id"
-            label="ログインID"
-            value={state.login_id}
-            readOnly={readOnly}
-            error={getErrorCondition(state.errors, "login_id")}
-            helperText={getErroMessage(state.errors, "login_id")}            
-          />
-          <br/>
-          <br/>
-          <TextControl
-            control={control}
-            name="password"
-            label="パスワード"
-            value={state.password}
-            readOnly={readOnly}
-            type="password"
-            error={getErrorCondition(state.errors, "password")}
-            helperText={getErroMessage(state.errors, "password")}            
-          />
-          <br/>
-          <br/>
-          <TextControl
-            control={control}
-            name="user_name"
-            label="ユーザ名"
-            value={state.user_name}
-            readOnly={readOnly}
-            error={getErrorCondition(state.errors, "user_name")}
-            helperText={getErroMessage(state.errors, "user_name")}            
-          />
-          <br/>
-          <br/>
-          <TextControl
-            control={control}
-            name="email"
-            label="メール"
-            value={state.email}
-            readOnly={readOnly}
-            error={getErrorCondition(state.errors, "email")}
-            helperText={getErroMessage(state.errors, "email")}            
-          />
-          <br/>
-          <br/>
-          <RadioControl
-            control={control}
-            name="authority"
-            label="権限"
-            hoge={authorityOption}
-            value={state.authority}
-            readOnly={readOnly}         
-          />
-          <br/>
-          <br/>
-          <UserRegisterButtonControl
-            id={id}
-            pageMode={pageMode}
-            useState={setPageMode}
-            dispatch={dispatch}
-            setDummy={setDummy}  // Material-UIのTextFieldリフレッシュ用useState
-            reset={reset}
-          />
-        </form>
-      </main>
-    );
-  }else{
-    return (
-      <main>
-        <h1>ユーザ</h1>
-        <br/>
-        <LogoutButton />
-        <br/>
-        <form onSubmit={handleSubmit(
-          pageMode === "confirm" ? doPost : doConfirm
-        )}>
-          <br/>
-          <br/>
-          <TextControl
-            control={control}
-            name="id"
-            label="ID"
-            value={state.id}
-            readOnly={true}
-          />
-          <br/>
-          <br/>
-          <TextControl
-            control={control}
-            name="login_id"
-            label="ログインID"
-            value={state.login_id}
-            readOnly={readOnly}
-            error={getErrorCondition(state.errors, "login_id")}
-            helperText={getErroMessage(state.errors, "login_id")}            
-          />
-          <br/>
-          <br/>
-          <TextControl
-            control={control}
-            name="password"
-            label="パスワード"
-            value={state.password}
-            readOnly={readOnly}
-            type="password"
-            error={getErrorCondition(state.errors, "password")}
-            helperText={getErroMessage(state.errors, "password")}            
-          />
-          <br/>
-          <br/>
-          <TextControl
-            control={control}
-            name="user_name"
-            label="ユーザ名"
-            value={state.user_name}
-            readOnly={readOnly}
-            error={getErrorCondition(state.errors, "user_name")}
-            helperText={getErroMessage(state.errors, "user_name")}            
-          />
-          <br/>
-          <br/>
-          <UserRegisterButtonControl
-            id={id}
-            pageMode={pageMode}
-            useState={setPageMode}
-            dispatch={dispatch}
-            setDummy={setDummy}  // Material-UIのTextFieldリフレッシュ用useState
-            reset={reset}
-          />
-        </form>
-      </main>
-    );
-  }
+    if(pageMode === "new_confirm" || pageMode === "new" ){
+      return(
+        <CreateComponents
+          state={state} 
+          doCreatePost={doCreatePost}
+          doConfirm={doConfirm}
+          setPageMode={setPageMode}
+          dispatch={dispatch}
+          setDummy={setDummy}
+          pageMode={pageMode}
+          readOnly={readOnly}
+          authorityOption={authorityOption}
+          id={id}
+        />
+        );
+    }else{
+      return(
+        <UpdateComponent
+          state={state} 
+          doCreatePost={doCreatePost}
+          doConfirm={doConfirm}
+          doPost={doPost}
+          setPageMode={setPageMode}
+          dispatch={dispatch}
+          setDummy={setDummy}
+          pageMode={pageMode}
+          readOnly={readOnly}
+          authorityOption={authorityOption}
+          id={id}
+        />
+      );
+    }
 }
 
 // 何故かTSが邪魔しているので

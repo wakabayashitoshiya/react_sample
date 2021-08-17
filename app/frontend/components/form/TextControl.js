@@ -13,6 +13,11 @@ const TextControl = (props) => {
   const error = props.error;
   const helperText = props.helperText;
 
+  if(props.display == "none" ){
+    console.log("---------------------------")
+    console.log(value)
+    console.log("---------------------------")
+  }
   /*
   * RHF(React Hook Form)のControllerコンポーネント(wapper)
   * 使用してMaterial-UIのTextFieldを使用している
@@ -25,21 +30,41 @@ const TextControl = (props) => {
       defaultValue={value}
       render={
         function render ({ field:{ value, ref, onChange} }) {
-          return (
-            <TextField
-              label={label}
-              variant="outlined"
-              defaultValue={value}
-              onChange={onChange}
-              inputRef={ref}
-              InputProps={{
-                readOnly: readOnly,
-              }}
-              type={type}
-              helperText={helperText}
-              error={error}
-            />
-          );             
+          if(props.display == "none" ){
+            return (
+              <TextField
+                label={label}
+                variant="outlined"
+                defaultValue={value}
+                onChange={onChange}
+                inputRef={ref}
+//                style={{ display: 'none' }} 
+                InputProps={{
+                  readOnly: readOnly,
+//                  style: { display: 'none' },
+                }}
+                type={type}
+                helperText={helperText}
+                error={error}
+              />
+            );             
+          }else{
+            return (
+              <TextField
+                label={label}
+                variant="outlined"
+                defaultValue={value}
+                onChange={onChange}
+                inputRef={ref}
+                InputProps={{
+                  readOnly: readOnly,
+                }}
+                type={type}
+                helperText={helperText}
+                error={error}
+              />
+            );             
+          }
         }
       }
     />
@@ -54,6 +79,7 @@ TextControl.propTypes = {
   readOnly: bool,
   type: string,
   helperText: string,
+  display: string,
   error: bool
 };
 

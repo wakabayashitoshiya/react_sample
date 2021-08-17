@@ -86,7 +86,9 @@ def do_create_confirm():
         ユーザ情報取得
     """
     params = request.get_json()
+    print("--------------------------------")
     print(params)
+    print("--------------------------------")
     
     # modeにより分岐
     if params["mode"] == "new":
@@ -112,7 +114,9 @@ def do_create_user():
         ユーザ情報取得
     """
     params = request.get_json()
+    print("--------------------------------")
     print(params)
+    print("--------------------------------")
     
     # modeにより分岐
     if params["mode"] == "create":

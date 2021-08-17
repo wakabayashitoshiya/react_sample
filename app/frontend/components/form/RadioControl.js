@@ -7,7 +7,8 @@ const RadioControl = (props) => {
   const name = props.name;
   const control = props.control;
   const value = props.value;
-  const hoge = props.hoge;
+  const authorityOption = props.authorityOption;
+  const readOnly = props.readOnly;
 
   console.log("--------------------hogeeeeee---------------------");
 
@@ -34,18 +35,20 @@ const RadioControl = (props) => {
               value={value} 
               onChange={onChange}>
               <FormControlLabel
-                value={hoge["authorityVal"][0]}
+                value={authorityOption["authorityVal"][0]}
                 control={<Radio color="primary" />}
-                label={hoge["authorityName"][0]}
+                label={authorityOption["authorityName"][0]}
                 labelPlacement="start"
                 inputRef={ref}
+                disabled={readOnly}
               />
               <FormControlLabel
-                value={hoge["authorityVal"][1]}
+                value={authorityOption["authorityVal"][1]}
                 control={<Radio color="primary" />}
-                label={hoge["authorityName"][1]}
+                label={authorityOption["authorityName"][1]}
                 labelPlacement="start"
                 inputRef={ref}
+                disabled={readOnly}
               />
             </RadioGroup>
           </FormControl>
@@ -61,7 +64,7 @@ RadioControl.propTypes = {
   control: any,
   label: string,
   value: any,
-  hoge: any,
+  authorityOption: any,
   readOnly: bool,
   type: string,
   helperText: string,
